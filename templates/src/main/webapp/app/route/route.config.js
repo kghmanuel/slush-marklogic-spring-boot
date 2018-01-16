@@ -126,7 +126,7 @@
                 controllerAs: '$ctrl',
                 resolve: {
                     doc: function(MLRest, $stateParams) {
-                        var uri = $stateParams.uri;
+                        var uri = decodeURIComponent($stateParams.uri);
                         return MLRest.getDocument(uri).then(function(response) {
                             return response;
                         });
@@ -145,7 +145,7 @@
                 controllerAs: '$ctrl',
                 resolve: {
                     doc: function(MLRest, $stateParams) {
-                        var uri = $stateParams.uri;
+                        var uri = decodeURIComponent($stateParams.uri);
                         return MLRest.getDocument(uri).then(function(response) {
                             return response;
                         });

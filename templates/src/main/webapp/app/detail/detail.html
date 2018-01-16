@@ -1,40 +1,60 @@
 <div class="row detail">
   <div class="col-sm-8 content-col">
-    <!-- note - ->
-    <uib-tabset type="pills">
-      <uib-tab ng-if="$ctrl.type==='json'">
-        <uib-tab-heading>JSON</uib-tab-heading>
-        <div class="col-sm-9">
-          <json-explorer data="$ctrl.json"></json-explorer>
-        </div>
-      </uib-tab>
-      <uib-tab ng-if="$ctrl.type==='xml' || $ctrl.type==='txt'">
-        <uib-tab-heading >XML</uib-tab-heading>
-        <div class="col-sm-9">
-          <pre class="pre-xml">{{$ctrl.xml}}</pre>
-        </div>
-      </uib-tab>
-      <uib-tab ng-if="$ctrl.type==='binary'">
-        <uib-tab-heading >Binary</uib-tab-heading>
-        <div class="col-sm-9">
-          <a target="_blank" ng-href="/v1/documents?uri={{$ctrl.uri}}&transform=download"
-             class="btn btn-default">Download</a>
-        </div>
-      </uib-tab>
-    </uib-tabset-->
-    <view-file uri="$ctrl.viewUri" content-type="$ctrl.contentType"
-      allow-modal="true" controls="true" download-uri="$ctrl.downloadUri"
-      file-name="$ctrl.fileName" show-code="false" trust-uri="false">
-    </view-file>
+		<uib-tabset active="ctrl.defaultTab" type="pills">
+			<uib-tab select="$ctrl.graphSelected=false;">
+				<uib-tab-heading>Details / Download</uib-tab-heading>
+				<div class="col-sm-10">
+					<div>
+						<view-file uri="$ctrl.viewUri" content-type="$ctrl.contentType"
+											 allow-modal="true" controls="true" download-uri="$ctrl.downloadUri"
+											 file-name="$ctrl.fileName" show-code="false" trust-uri="false" ena>
+						</view-file>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab ng-show="$ctrl.binaryType && $ctrl.binaryType !== 'other'"  select="$ctrl.graphSelected=false;">
+				<uib-tab-heading>Binary Preview</uib-tab-heading>
+				<div class="col-sm-10">
+					<div>
+						<div ng-if="$ctrl.binaryType === 'pdf'">
+							<object data="/v1/documents?uri={{ctrl.binaryFilePath}}&format=binary" content-type="{{$ctrl.binaryContentType}}" class="preview-binary"></object>
+						</div>
+						<div ng-if="$ctrl.binaryType === 'image'">
+							<img ng-src="/v1/documents?uri={{$ctrl.binaryFilePath}}&format=binary" />
+						</div>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab select="$ctrl.graphSelected=false;" >
+				<uib-tab-heading>JSON</uib-tab-heading>
+				<div class="col-sm-10">
+					<div>
+						<json-explorer data="$ctrl.json"></json-explorer>
+					</div>
+				</div>
+			</uib-tab>
+			<uib-tab select="$ctrl.graphSelected=false;">
+				<uib-tab-heading>XML</uib-tab-heading>
+				<div class="col-sm-10" hljs hljs-no-escape hljs-source="$ctrl.xml"></div>
+			</uib-tab>
+			<uib-tab select="$ctrl.graphSelected=true;">
+				<uib-tab-heading>Semantics</uib-tab-heading>
+				<div></div>
+			</uib-tab>
+		</uib-tabset>
+		<!-- moved graph outside of uib-tabset as it won't work with small frame size -->
+		<div ng-show="$ctrl.graphSelected">
+			<ml-visjs-graph uris="[$ctrl.uri]"></ml-visjs-graph>
+		</div>
   </div>
   <div class="col-sm-4 right-col">
     <div id="buttons-detail">
       <button class="btn btn-default" ui-sref="root.search">Search</button>
       <button class="btn btn-primary"
-              ng-show="!$rootCtrl.currentUser.disallowUpdates" 
+              ng-show="!$rootCtrl.currentUser.disallowUpdates"
               ui-sref="root.edit({uri: $ctrl.uri, prev: 'root.view'})">Edit</button>
       <button class="btn btn-primary"
-              ng-show="!$rootCtrl.currentUser.disallowUpdates" 
+              ng-show="!$rootCtrl.currentUser.disallowUpdates"
               mwl-confirm
               title="This will permanently delete {{$ctrl.uri}}, are you sure?"
               confirm-text="Yes"
@@ -53,5 +73,15 @@
         <ml-similar uri="{{$ctrl.uri}}" limit="5"></ml-similar>
       </div>
     </div>
+		<uib-accordion ng-repeat="pageExtension in $ctrl.pageExtensions" close-others="false" ng-show="pageExtension.active" ng-init="pageExtension.open = true">
+			<uib-accordion-group is-open="pageExtension.open">
+				<uib-accordion-heading>
+					<strong>{{pageExtension.name}}</strong>
+					<a class="pull-right"><span class="glyphicon" ng-class="{'glyphicon-chevron-down': pageExtension.open, 'glyphicon-chevron-right': !pageExtension.open}"></span></a>
+				</uib-accordion-heading>
+				<div compile="pageExtension.html">
+				</div>
+			</uib-accordion-group>
+		</uib-accordion>
   </div>
 </div>

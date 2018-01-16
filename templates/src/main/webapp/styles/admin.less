@@ -1,7 +1,8 @@
 //== Colors
 //
 //## Gray and brand colors for use across Bootstrap.
-
+@icon-font-path:    "../fonts/";
+@FontAwesomePath:    "../fonts/";
 @gray-base:              #000;
 @gray-darker:            lighten(@gray-base, 13.5%); // #222
 @gray-dark:              lighten(@gray-base, 20%);   // #333
@@ -70,27 +71,27 @@ h1#logo {
 
 /* header buttons */
 
-.nav.navbar-nav a:before  { 
-    font-family: FontAwesome; 
-    font-size: 24px; 
-    display: inline-block; 
+.nav.navbar-nav a:before  {
+    font-family: FontAwesome;
+    font-size: 24px;
+    display: inline-block;
 }
 
-.nav.navbar-nav .home a:before  { 
+.nav.navbar-nav .home a:before  {
     content: '\f015';
 }
 
-.nav.navbar-nav .search a:before  { 
+.nav.navbar-nav .search a:before  {
     content: '\f002';
 }
 
-.nav.navbar-nav .create a:before  { 
+.nav.navbar-nav .create a:before  {
     content: '\f044';
 }
 
 .nav.navbar-nav a {
   font-size: 0;
-} 
+}
 
 /* facets */
 ml-facets.col-md-3 {

@@ -13,7 +13,7 @@ buildscript {
 plugins {
 	id "java"
 	id "eclipse"
-	id "org.springframework.boot" version "1.5.4.RELEASE"
+	id "org.springframework.boot" version "1.5.8.RELEASE"
 	id "com.marklogic.ml-gradle" version "2.9.0"
 	id "war"
 	id "com.bmuschko.cargo" version "2.2.3"
@@ -56,7 +56,7 @@ configurations {
 
 dependencies {
 	// Main Boot library for running a webapp
-	def springBootVersion = '1.5.4.RELEASE'
+	def springBootVersion = '1.5.8.RELEASE'
 	compile ("org.springframework.boot:spring-boot-starter-web:$springBootVersion"){
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
@@ -159,9 +159,9 @@ task corbRun(type: com.marklogic.gradle.task.CorbTask, dependsOn: ['mlLoadModule
 
 /**
  * Generates a war file for standalone web deployment.
- * Excludes unprocessed templates and the runtime provided jar files.
+ * Excludes unprocessed templates and the jar files of the embedded tomcat.
  * Sample usage:
- *    gulp build --basePath slush-generated-app/
+ *    gulp build
  *    gradle warRelease
  */
 task warRelease(type: War) {
@@ -176,9 +176,8 @@ task warRelease(type: War) {
  * Allows local and remote deployment of project artifacts to web containers.
  * See the gradle.properties file for the cargo task configuration.
  * Sample usage:
- *    gulp build --basePath slush-generated-app/
  *    gradle warRelease
- *    gradle cargoDeployRemote -PdeployPassword=password -PtargetContext=slush-generated-app
+ *    gradle cargoDeployRemote -PdeployPassword=password -PtargetContext=<context>
  *
  * For the list of supported application servers see: https://codehaus-cargo.github.io/cargo/Home.html
  */
@@ -206,7 +205,29 @@ task clean_collections(type: com.marklogic.gradle.task.ServerEvalTask, group: 'C
         '        return (' +
         '          xdmp:collection-delete($collection),' +
         '          "Cleaned collection " || $collection' +
-        '        )'
+        '        )'+
+			  '        }'
+}
+
+task add_semantics_index_template(type: com.marklogic.gradle.task.ServerEvalTask, group: 'Add sample template (TDE) for semantic index.') {
+	javascript =
+		'declareUpdate();                          \n' +
+		'var tde = require ("/MarkLogic/tde.xqy"); \n' +
+		'                                          \n' +
+		'var template = xdmp.toJSON({              \n' +
+		'  "template":{                            \n' +
+		'    "context":"/triples/triple",          \n' +
+		'    "triples":[{                          \n' +
+		'        "subject":{                       \n' +
+		'        "val":"sem:iri(\'subject\')"},    \n' +
+		'        "predicate":{                     \n' +
+		'          "val":"sem:iri(\'predicate\')"},\n' +
+		'        "object":{                        \n' +
+		'          "val":"xs:string(\'object\')"}  \n' +
+		'         }                                \n' +
+		'        ] }});                            \n' +
+		'                                          \n' +
+		'tde.templateInsert("sample-semantics-template.json", template); '
 }
 
 task importInitialUser(type: com.marklogic.gradle.task.MlcpTask) {

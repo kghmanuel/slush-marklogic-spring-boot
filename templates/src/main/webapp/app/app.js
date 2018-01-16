@@ -1,16 +1,21 @@
 (function () {
-  'use strict';
+	'use strict';
 
-  angular.module('app', [
-    // routing
-    'app.route',
+	angular.module('app', [
+		// routing
+		'app.route',
 
-    // http interceptors
-    'app.error',
-    'app.login',
+		// http interceptors
+		'app.error',
+		'app.login',
 
-    // top-level state
-    'app.root'
-  ]);
+		//common dependencies
+		'app.common',
+		'app.components',
+
+		// top-level state
+		'app.root'
+
+	]);
 
 }());

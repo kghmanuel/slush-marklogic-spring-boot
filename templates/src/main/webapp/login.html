@@ -1,7 +1,6 @@
 <html>
 
 <head>
-	<base href="/"/>
 	<meta charset="utf-8"/>
 	<title><%= appName %></title>
 	<meta name="description" content=""/>
@@ -10,6 +9,19 @@
 	<meta name="springBootLoginForm" content=""/>
 	<!--/* Refresh to lessen the chance of the Spring Boot CSRF token expiring */-->
 	<meta http-equiv="refresh" content="60;"/>
+	<script>
+        (function() {
+            //Auto-insert base href tag base on URL path used to fetch this html.
+            //Required by bower components, images, css, scripts that use $location and config for MLRestProvider's prefix
+            //Simplifies build as this works for both embedded and war file deployments.
+            var path = window.location.pathname;
+            var head = document.querySelector('head');
+            var baseElement = document.createElement('base');
+            head.insertBefore(baseElement, head.firstChild);
+            baseElement.setAttribute("href", path.substring(0, path.lastIndexOf('/') + 1));
+        }());
+	</script>
+
 	<link rel="shortcut icon" th:href="@{images/favicon.ico}"/>
 	<!-- bower:css -->
 	<!-- endbower -->

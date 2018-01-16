@@ -5,9 +5,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<base href="/" />
 	<title><%= appName %></title>
 	<meta name="description" content="" />
+	<script>
+        (function() {
+            //Auto-insert base href tag base on URL path used to fetch this html.
+            //Required by bower components, images, css, scripts that use $location and config for MLRestProvider's prefix
+            //Simplifies build as this works for both embedded and war file deployments.
+            var path = window.location.pathname;
+            var head = document.querySelector('head');
+            var baseElement = document.createElement('base');
+            head.insertBefore(baseElement, head.firstChild);
+            baseElement.setAttribute("href", path.substring(0, path.lastIndexOf('/') + 1));
+        }());
+	</script>
+
 	<!--link rel="shortcut icon" href="images/favicon.ico"-->
 
 	<link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png"/>

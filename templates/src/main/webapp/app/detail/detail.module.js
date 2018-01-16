@@ -10,9 +10,11 @@
 
     // html dependencies
     'app.similar',
+	'hljs',
     'ngJsonExplorer',
     'mwl.confirm', // for delete confirmation popups
     'ui.bootstrap',
-    'view.file'
+    'view.file',
+	'ml.visjsGraph'
   ]);
 }());

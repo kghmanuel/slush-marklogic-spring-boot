@@ -288,7 +288,7 @@ function ext:post(
                       for $d in $dirs[1 to 1000]
                       order by $d
                       return
-                        <li><a href="/v1/search?directory={encode-for-uri($d)}" target="_blank">{$d}</a> ({xdmp:estimate(xdmp:directory($d))} docs)</li>,
+                        <li><a href="v1/search?directory={encode-for-uri($d)}" target="_blank">{$d}</a> ({xdmp:estimate(xdmp:directory($d))} docs)</li>,
 
                       if (count($dirs) > 1000) then
                         <li><em>(too many, showing first 1000)</em></li>
@@ -333,7 +333,7 @@ function ext:post(
               for $uri in $sample/base-uri(.)
               order by $uri
               return
-                <li><a href="/v1/documents?format=xml&amp;category=content&amp;uri={encode-for-uri($uri)}" target="_blank">{$uri}</a> (<a href="/v1/documents?format=xml&amp;category=metadata&amp;uri={encode-for-uri($uri)}" target="_blank">metadata</a>)</li>
+                <li><a href="v1/documents?format=xml&amp;category=content&amp;uri={encode-for-uri($uri)}" target="_blank">{$uri}</a> (<a href="/v1/documents?format=xml&amp;category=metadata&amp;uri={encode-for-uri($uri)}" target="_blank">metadata</a>)</li>
             }</ul>
           </div>
 

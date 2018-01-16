@@ -17,10 +17,6 @@ var srcDir = 'src/main/webapp'
 var resourcesDir = 'src/main/resources';
 var staticDir = resourcesDir + '/static';
 
-var basePath = '', i = process.argv.indexOf("--basePath");
-if(i>-1) {
-    basePath = process.argv[i+1];
-}
 
 var paths = {
     src: {
@@ -79,7 +75,6 @@ gulp.task('styles', ['clean-styles'], function() {
  */
 gulp.task('wiredep', ['clean-templates'], function () {
     return gulp.src(paths.src.templates)
-        .pipe(replace({regex:'<base href="/"[ ]?/>', replace:'<base href="/'+basePath+'"/>'}))
         .pipe(wiredep({
             exclude: ['angularjs'],
             ignorePath: "../resources/static/"

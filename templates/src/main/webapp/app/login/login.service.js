@@ -106,7 +106,7 @@
             };
           }],
           controllerAs: 'ctrl',
-          templateUrl: '/app/login/login-modal.html',
+          templateUrl: 'app/login/login-modal.html',
           backdrop: 'static',
           keyboard: false
         });

@@ -21,6 +21,12 @@ the future.
 
     ./gradlew -i mlDeploy
     
+Add the following roles manually to <app-name>-role via the Admin UI (Configure-->Security->Roles):
+
+    "sem:sparql","xdmp:add-response-header"
+    
+TODO: fix error when above roles are added to sample-app-role.json  
+    
 To deploy the initial set of documents that will go to the content db, run the following command.
 The deployContent task in build.gradle deploys the specific files from ml-content folder with their corresponding role 
 and privilege pairs. 
@@ -30,6 +36,13 @@ and privilege pairs.
 Optional: To import 3,000 sample records, run the following command.
   
     ./gradlew -i importSampleData
+    
+Install semantics dependencies
+
+    ./gradlew -i add_semantics_index_template
+    npm install -g mlpm
+    mlpm install visjs-graph
+    mlpm deploy -H <host> -P <app-rest-port> -u <user> -p <password>
     
 Install the Node dependencies (only needs to be done in the future when these change):
 
@@ -46,9 +59,45 @@ Build the webapp (need to do this any time a file in the webapp is changed):
 Fire up Spring Boot, which runs an embedded Tomcat server:
 
     ./gradlew bootRun
-  OR
-    
+  OR run the executable jar/war file (also has the embedded Tomcat).
+  
+    ./gradlew build
     java -jar build\libs\<app-name>-<version>.war
+    
+Username and password for the temp account is in:
+  
+    src\main\ml-config\security\users\sample-project-default-user.json
+ 
+##War file deployment (non-root context/path ):
+ 
+To generate a war file that excludes all jar files for the embedded tomcat:
+(Note the diff between './gradlew build' vs './gradlew warRelease' - warRelease doesn't contain the embedded tomcat.) 
+
+	gulp build
+    gradle warRelease
+     
+To prepare for remote application or web server deployments update the target info in gradle.properties:
+
+    targetContainerId=tomcat8x    
+    targetPort=8080    
+    targetHost=localhost      
+    targetContext=    
+    deployUser=admin      
+    deployPassword=
+    
+Prepare the target application/web server for remote deployments.  For Tomcat, you'll need to configure
+the Manager application access:
+https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html
+
+
+Once the server is ready to receive remote deployments, run the following:
+
+    gradle cargoDeployRemote -PdeployPassword=password -PtargetContext=<app-context>
+    
+The war file will be deployed as <app-context>.war
+    
+For the list of supported application servers see: https://codehaus-cargo.github.io/cargo/Home.html   
+
     
 ## What should I run while developing?
 
@@ -62,35 +111,34 @@ will automatically load new/modified MarkLogic modules, just like "gradle mlWatc
 
 You can also run the middle tier via an IDE like IntelliJ or Eclipse - just run the "App" program.
 
-## For standalone web deployments 
+## How to assure reference paths (links) work for both root and non-root context deployments ?
+Make sure to *use relative paths* (don't start path with '/') when adding bower components, images, css and others .  
+Base href path will be set automatically by a javascript in the head of the main html file. 
 
-In case that the web application won't be run as the root base context, run the following to replace the base href 
-in all html templates: 
-(html head node matching regex '<base href="/"[ ]?/>' will be replaced by '\<base href="/\<slush-generated-app-context\>/"/>')
+When adding new html files *replace all* \<base href="/xx/xx/"/> tags with the following: 
+(Important that you remove the base href tag and replace - you may follow the example in index.html and login.html.
+ It won't work if you externalize and import the script. )
+   
+	<script>
+        (function() {
+            //Auto-insert base href tag base on URL path used to fetch this html.
+            //Required by bower components, images, css, scripts that use $location and config for MLRestProvider's prefix
+            //Simplifies build as this works for both embedded and war file deployments.
+            var path = window.location.pathname;
+            var head = document.querySelector('head');
+            var baseElement = document.createElement('base');
+            head.insertBefore(baseElement, head.firstChild);
+            baseElement.setAttribute("href", path.substring(0, path.lastIndexOf('/') + 1));
+        }());
+	</script>
 
-    #NOTE the forward slash ('/') at the end of the command as part of the basePath
-    gulp build --basePath <slush-generated-app-context>/
+When adding new Angular JS modules that needs to invoke the MarkLogic API via ml-commons, add the 
+*config* call for *MLRestProvider* similar to below:
 
-Generate a war file that excludes all web container provided jar classes:
-
-    gradle warRelease
-     
-To prepare for remote application or web server deployments update the target info in gradle.properties:
-
-    targetContainerId=tomcat8x    
-    targetPort=8080    
-    targetHost=localhost      
-    targetContext=    
-    deployUser=admin      
-    deployPassword=
-
-Once the server is ready to receive remote deployments, run the following:
-
-    #NOTE that the user and password in the gradle.properties and in the command below 
-    #     are not from a MarkLogic admin account but an account in the target 
-    #     application server ( i.e: Tomcat - conf\tomcat-users.xml )
-    #NOTE also the lack of slash (/) at the end of the command below     
-    gradle cargoDeployRemote -PdeployPassword=password -PtargetContext=<slush-generated-app-context>
-    
-For the list of supported application servers see: https://codehaus-cargo.github.io/cargo/Home.html   
+		angular.module('app.login')
+		.config(["MLRestProvider", function (MLRestProvider) {
+					// Make MLRest target url start with the page's base href (proxy)
+					MLRestProvider.setPrefix(angular.element(document.querySelector('base')).attr('href')+'v1');
+				}])
+		.factory('loginService', LoginService);
 

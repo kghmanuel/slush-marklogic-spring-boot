@@ -1,9 +1,11 @@
 {
 	"database-name": "%%DATABASE%%",
+	"schema-database": "Schemas",
 	"collection-lexicon": true,
 	"word-searches": true,
 	"trailing-wildcard-searches": true,
 	"uri-lexicon": true,
+	"triple-index": true,
 	"geospatial-element-pair-index": [
 		{
 			"parent-namespace-uri": "",
