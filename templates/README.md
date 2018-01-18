@@ -20,13 +20,7 @@ Run "./gradlew tasks" to see all those tasks. It's rare that you'll need to run 
 the future.
 
     ./gradlew -i mlDeploy
-    
-Add the following roles manually to <app-name>-role via the Admin UI (Configure-->Security->Roles):
-
-    "sem:sparql","xdmp:add-response-header"
-    
-TODO: fix error when above roles are added to sample-app-role.json  
-    
+        
 To deploy the initial set of documents that will go to the content db, run the following command.
 The deployContent task in build.gradle deploys the specific files from ml-content folder with their corresponding role 
 and privilege pairs. 
