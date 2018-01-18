@@ -34,9 +34,9 @@ Optional: To import 3,000 sample records, run the following command.
 Install semantics dependencies
 
     ./gradlew -i add_semantics_index_template
-    npm install -g mlpm
+    npm install mlpm
     mlpm install visjs-graph
-    mlpm deploy -H <host> -P <app-rest-port> -u <user> -p <password>
+    gradlew -i mlLoadMlpm
     
 Install the Node dependencies (only needs to be done in the future when these change):
 

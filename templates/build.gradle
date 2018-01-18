@@ -18,6 +18,7 @@ plugins {
 	id "war"
 	id "com.bmuschko.cargo" version "2.3"
 	id "com.bmuschko.tomcat" version "2.3"
+	id "com.moowork.node" version "1.2.0"
 
 	// For managing environment-sensitive properties - see https://github.com/stevesaliman/gradle-properties-plugin
 	// id 'net.saliman.properties' version '1.4.5'
@@ -277,4 +278,9 @@ task importSampleData(type: com.marklogic.gradle.task.MlcpTask) {
 	output_permissions = "<%= appName %>-role,read,<%= appName %>-role,update"
 	output_collections = "data,data/people"
 	output_uri_replace = ".*\\.zip,''"
+}
+
+task mlLoadMlpm (type:NodeTask){
+  script = file('node_modules/mlpm/bin/mlpm.js')
+  args = ["deploy", "-H", "${mlHost}", "-P", "${mlRestPort}", "-u", "${mlUsername}", "-p", "${mlPassword}"]
 }
