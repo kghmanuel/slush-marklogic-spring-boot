@@ -1,0 +1,14 @@
+{
+  "role-name" : "%%mlAppName%%-role",
+  "description" : "A role for users of the %%mlAppName%% application",
+  "role" : [ "rest-reader", "rest-writer" ],
+  "privilege" : [ {
+    "privilege-name" : "sem:sparql",
+    "action" : "http://marklogic.com/xdmp/privileges/sem-sparql",
+    "kind" : "execute"
+  }, {
+    "privilege-name" : "xdmp:add-response-header",
+    "action" : "http://marklogic.com/xdmp/privileges/xdmp-add-response-header",
+    "kind" : "execute"
+  } ]
+}

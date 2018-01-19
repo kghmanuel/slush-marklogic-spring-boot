@@ -1,57 +1,54 @@
 {
-	"database-name": "%%DATABASE%%",
-	"schema-database": "Schemas",
-	"collection-lexicon": true,
-	"word-searches": true,
-	"trailing-wildcard-searches": true,
-	"uri-lexicon": true,
-	"triple-index": true,
-	"geospatial-element-pair-index": [
-		{
-			"parent-namespace-uri": "",
-			"parent-localname": "location",
-			"latitude-namespace-uri": "",
-			"latitude-localname": "latitude",
-			"longitude-namespace-uri": "",
-			"longitude-localname": "longitude",
-			"coordinate-system": "wgs84",
-			"range-value-positions": false
-		}
-	],
-	"element-word-query-through":
-		[],
-	"phrase-through":
-		[],
-	"phrase-around":
-	[],
-	"range-element-index":
-	[],
-	"range-path-index": [
-		{
-			"scalar-type": "string",
-			"collation": "http://marklogic.com/collation/codepoint",
-			"path-expression": "docFormat",
-			"range-value-positions": false,
-			"invalid-values": "reject"
-		},
-		{
-			"scalar-type": "string",
-			"collation": "http://marklogic.com/collation/codepoint",
-			"path-expression": "eyeColor",
-			"range-value-positions": false,
-			"invalid-values": "reject"
-		},{
-			"scalar-type": "string",
-			"collation": "http://marklogic.com/collation/codepoint",
-			"path-expression": "gender",
-			"range-value-positions": false,
-			"invalid-values": "reject"
-		},{
-			"scalar-type": "unsignedInt",
-			"path-expression": "age",
-			"collation": "http://marklogic.com/collation/",
-			"range-value-positions": false,
-			"invalid-values": "reject"
-		}
-	]
+  "database-name" : "%%DATABASE%%",
+  "schema-database" : "Schemas",
+  "collection-lexicon" : true,
+  "word-searches" : true,
+  "trailing-wildcard-searches" : true,
+  "uri-lexicon" : true,
+  "triple-index" : true,
+  "geospatial-element-pair-index" : [{
+      "parent-namespace-uri" : "",
+      "parent-localname" : "location",
+      "latitude-namespace-uri" : "",
+      "latitude-localname" : "latitude",
+      "longitude-namespace-uri" : "",
+      "longitude-localname" : "longitude",
+      "coordinate-system" : "wgs84",
+      "range-value-positions" : false
+    }
+  ],
+  "element-word-query-through" :
+  [],
+  "phrase-through" :
+  [],
+  "phrase-around" :
+  [],
+  "range-element-index" :
+  [],
+  "range-path-index" : [{
+      "scalar-type" : "string",
+      "collation" : "http://marklogic.com/collation/codepoint",
+      "path-expression" : "docFormat",
+      "range-value-positions" : false,
+      "invalid-values" : "reject"
+    }, {
+      "scalar-type" : "string",
+      "collation" : "http://marklogic.com/collation/codepoint",
+      "path-expression" : "eyeColor",
+      "range-value-positions" : false,
+      "invalid-values" : "reject"
+    }, {
+      "scalar-type" : "string",
+      "collation" : "http://marklogic.com/collation/codepoint",
+      "path-expression" : "gender",
+      "range-value-positions" : false,
+      "invalid-values" : "reject"
+    }, {
+      "scalar-type" : "unsignedInt",
+      "path-expression" : "age",
+      "collation" : "http://marklogic.com/collation/",
+      "range-value-positions" : false,
+      "invalid-values" : "reject"
+    }
+  ]
 }
