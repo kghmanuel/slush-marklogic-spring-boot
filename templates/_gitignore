@@ -9,3 +9,4 @@ node_modules
 src/main/resources/static
 src/main/resources/templates
 src/main/resources/bower_components
+gradle-local.properties

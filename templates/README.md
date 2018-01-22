@@ -36,7 +36,7 @@ Install semantics dependencies
     ./gradlew -i add_semantics_index_template
     npm install mlpm
     mlpm install visjs-graph
-    gradlew -i mlLoadMlpm
+    ./gradlew -i mlLoadMlpm
     
 Install the Node dependencies (only needs to be done in the future when these change):
 
@@ -67,7 +67,7 @@ Username and password for the temp account is in:
 To generate a war file that excludes all jar files for the embedded tomcat:
 (Note the diff between './gradlew build' vs './gradlew warRelease' - warRelease doesn't contain the embedded tomcat.) 
 
-	gulp build
+	 gulp build
     gradle warRelease
      
 To prepare for remote application or web server deployments update the target info in gradle.properties:

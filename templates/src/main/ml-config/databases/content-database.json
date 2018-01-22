@@ -1,6 +1,6 @@
 {
   "database-name" : "%%DATABASE%%",
-  "schema-database" : "Schemas",
+  "schema-database" : "%%SCHEMAS_DATABASE%%",
   "collection-lexicon" : true,
   "word-searches" : true,
   "trailing-wildcard-searches" : true,

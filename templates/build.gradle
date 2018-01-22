@@ -14,7 +14,7 @@ plugins {
 	id "java"
 	id "eclipse"
 	id "org.springframework.boot" version "1.5.8.RELEASE"
-	id "com.marklogic.ml-gradle" version "2.9.0"
+	id "com.marklogic.ml-gradle" version "3.3.0"
 	id "war"
 	id "com.bmuschko.cargo" version "2.3"
 	id "com.bmuschko.tomcat" version "2.3"
@@ -94,7 +94,7 @@ dependencies {
 	mlcp files("mlcp")
 
 	// For application server deployment
-	def cargoVersion = '2.3'
+	def cargoVersion = '1.6.4'
 	cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
 			"org.codehaus.cargo:cargo-ant:$cargoVersion"
 
@@ -189,7 +189,7 @@ cargo {
 	deployable {
 		context = targetContext
 	}
-
+	
 	remote {
 		hostname = targetHost
 		username = deployUser
@@ -236,7 +236,7 @@ task importInitialUser(type: com.marklogic.gradle.task.MlcpTask) {
 	command = "IMPORT"
 	database = mlAppConfig.contentDatabaseName
 	input_file_path = "src/main/ml-content/api/users/sample-project-default-user.json"
-	output_permissions = "<%= appName %>-role,read,<%= appName %>-role,update,<%= appName %>-role,insert"
+	output_permissions = "${mlAppName}-role,read,${mlAppName}-role,update,${mlAppName}-role,insert"
 	output_uri_replace = ".*ml-content,''"
 }
 
@@ -245,7 +245,7 @@ task importAdminUser(type: com.marklogic.gradle.task.MlcpTask) {
 	command = "IMPORT"
 	database = mlAppConfig.contentDatabaseName
 	input_file_path = "src/main/ml-content/api/users/admin.json"
-	output_permissions = "<%= appName %>-role,read,<%= appName %>-role,update,<%= appName %>-role,insert"
+	output_permissions = "${mlAppName}-role,read,${mlAppName}-role,update,${mlAppName}-role,insert"
 	output_uri_replace = ".*ml-content,''"
 }
 
@@ -254,7 +254,7 @@ task importDictionary(type: com.marklogic.gradle.task.MlcpTask) {
 	command = "IMPORT"
 	database = mlAppConfig.contentDatabaseName
 	input_file_path = "src/main/ml-content/dictionary-large.xml"
-	output_permissions = "<%= appName %>-role,read,<%= appName %>-role,update,<%= appName %>-role,insert"
+	output_permissions = "${mlAppName}-role,read,${mlAppName}-role,update,${mlAppName}-role,insert"
 	output_uri_replace = ".*ml-content,''"
 }
 
@@ -275,7 +275,7 @@ task importSampleData(type: com.marklogic.gradle.task.MlcpTask) {
 	database = mlAppConfig.contentDatabaseName
 	input_file_path = "src/main/ml-content/sample-data.zip"
 	input_compressed = "true"
-	output_permissions = "<%= appName %>-role,read,<%= appName %>-role,update"
+	output_permissions = "${mlAppName}-role,read,${mlAppName}-role,update"
 	output_collections = "data,data/people"
 	output_uri_replace = ".*\\.zip,''"
 }
