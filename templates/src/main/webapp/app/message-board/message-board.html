@@ -1,4 +1,8 @@
 <div ng-show="msg">
-  <h3>{{msg.title || msg}}</h3>
-  <p>{{msg.body}}</p>
+  <div ng-if="msg.formattedBody" ng-bind-html="msg.formattedBody">
+  </div>
+  <div ng-if="!msg.formattedBody">
+    <h3>{{msg.title}}</h3>
+    <p>{{msg.body}}</p>
+  </div>
 </div>

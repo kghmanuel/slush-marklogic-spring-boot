@@ -14,10 +14,22 @@
       responseError: function(rejection) {
         var msg;
         var toastMsg;
+        var contentType = rejection.headers('Content-Type');
         if (rejection.data && rejection.data.errorResponse) {
           msg = {
             title: rejection.data.errorResponse.status,
             body: rejection.data.errorResponse.message
+          };
+        } else if (rejection.data && rejection.data.message) {
+          msg = {
+            title: rejection.data.status,
+            body: rejection.data.message
+          };
+        } else if (contentType && contentType.indexOf('html') >= 0) {
+          msg = {
+            title: rejection.status,
+            formattedBody: rejection.data,
+            body:""
           };
         } else {
           msg = {
