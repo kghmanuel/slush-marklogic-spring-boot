@@ -73,7 +73,7 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-devtools:$springBootVersion")
 
 	// Provides integration points between Boot and MarkLogic
-	compile "com.marklogic:marklogic-spring-web:1.1.0"
+	compile "com.marklogic:marklogic-spring-web:1.2.0"
 
 	// Needed for loading modules into MarkLogic
 	compile "com.marklogic:ml-javaclient-util:2.11.0"
