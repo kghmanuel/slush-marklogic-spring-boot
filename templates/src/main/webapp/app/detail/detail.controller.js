@@ -119,14 +119,14 @@
         // TODO: not reached with code coverage yet!
 
         // create a toast with settings:
-      ngToast.create({
-              className: 'warning',
-              content: 'Deleted ' + uri,
-              dismissOnTimeout: true,
-              timeout: 2000,
-              onDismiss: function () {
-                //redirect to search page
-                $state.go('root.search');
+        ngToast.create({
+          className: 'warning',
+          content: 'Deleted ' + uri,
+          dismissOnTimeout: true,
+          timeout: 2000,
+          onDismiss: function () {
+            //redirect to search page
+            $state.go('root.search');
           }
         });
       }, function(response) {

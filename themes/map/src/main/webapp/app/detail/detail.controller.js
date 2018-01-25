@@ -26,9 +26,9 @@
     var paramsFormat = doc.config.params.format;
     var encodedUri = encodeURIComponent(uri);
 
-		ctrl.defaultTab = 0;
-		ctrl.html = $sce.trustAsHtml(doc.data.html);
-		ctrl.graphSelected = false;
+    ctrl.defaultTab = 0;
+    ctrl.html = $sce.trustAsHtml(doc.data.html);
+    ctrl.graphSelected = false;
 
     /* jscs: disable */
     if (paramsFormat==='json' || contentType.lastIndexOf('application/json', 0) === 0) {
@@ -41,7 +41,7 @@
     } else if (paramsFormat==='xml' || contentType.lastIndexOf('application/xml', 0) === 0) {
       ctrl.xml = vkbeautify.xml(doc.data);
       /*jshint camelcase: false */
-        ctrl.json = x2js.xml_str2json(doc.data);
+      ctrl.json = x2js.xml_str2json(doc.data);
       ctrl.type = 'xml';
       /* jscs: enable */
     } else if (contentType.lastIndexOf('text/plain', 0) === 0) {
@@ -57,11 +57,11 @@
       ctrl.binaryContentType = parsedXML.getElementsByTagName('binary-content-type')[0].childNodes[0].nodeValue;
       ctrl.type = 'binary';
       if (/image\//.test(ctrl.binaryContentType)) {
-          ctrl.binaryType = 'image';
+        ctrl.binaryType = 'image';
       } else if (/application\/pdf/.test(ctrl.binaryContentType)) {
-          ctrl.binaryType = 'pdf';
+        ctrl.binaryType = 'pdf';
       } else {
-          ctrl.binaryType = 'other';
+        ctrl.binaryType = 'other';
       }
       var html = parsedXML.getElementsByTagName('html')[0];
       var metaElements = html.getElementsByTagName('meta');
@@ -109,7 +109,7 @@
         // TODO: not reached with code coverage yet!
 
         // create a toast with settings:
-		  ngToast.create({
+      ngToast.create({
           className: 'warning',
           content: 'Deleted ' + uri,
           dismissOnTimeout: true,
@@ -120,7 +120,7 @@
           }
         });
       }, function(response) {
-				ngToast.danger(response.data);
+        ngToast.danger(response.data);
       });
     }
 
