@@ -20,16 +20,16 @@
   // TODO: inject vkbeautify
   function DetailCtrl(doc, $stateParams, MLRest, RegisteredComponents, ngToast, $state, $scope, $sce, x2js) {
     var ctrl = this;
-		ctrl.pageExtensions = RegisteredComponents.pageExtensions();
-		ctrl.hasPageExtensions = false;
+    ctrl.pageExtensions = RegisteredComponents.pageExtensions();
+    ctrl.hasPageExtensions = false;
 
-		$scope.$watch(function() {
-			return _.filter(ctrl.pageExtensions, function(val) {
-				return val.active;
-			}).length;
-		},function(newVal) {
-			ctrl.hasPageExtensions = newVal > 0;
-		});
+    $scope.$watch(function() {
+      return _.filter(ctrl.pageExtensions, function(val) {
+        return val.active;
+      }).length;
+    },function(newVal) {
+      ctrl.hasPageExtensions = newVal > 0;
+    });
 
     var uri = $stateParams.uri;
     var contentType = doc.config.headers.Accept.split(/,/)[0];
@@ -119,7 +119,7 @@
         // TODO: not reached with code coverage yet!
 
         // create a toast with settings:
-		  ngToast.create({
+      ngToast.create({
               className: 'warning',
               content: 'Deleted ' + uri,
               dismissOnTimeout: true,
@@ -130,7 +130,7 @@
           }
         });
       }, function(response) {
-				ngToast.danger(response.data);
+        ngToast.danger(response.data);
       });
     }
 

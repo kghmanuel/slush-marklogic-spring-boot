@@ -33,9 +33,9 @@
         var $ctrl = $scope.$ctrl;
         var componentInfo = ($ctrl.document) ? detailsComponentInfo : searchComponentInfo;
 
-				var baseUrl = angular.element(document.querySelector('base')).attr('href');
+        var baseUrl = angular.element(document.querySelector('base')).attr('href');
         $http.get(
-					baseUrl + 'v1/resources/sparql-describe',
+          baseUrl + 'v1/resources/sparql-describe',
           { params: { query: $ctrl.query, document: $ctrl.document}}
         ).then(function(response) {
           $ctrl.semanticItems = response.data.results;
