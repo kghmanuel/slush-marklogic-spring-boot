@@ -7,8 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.marklogic.client.DatabaseClientFactory.Authentication;
 import com.marklogic.client.helper.DatabaseClientConfig;
 import com.marklogic.client.spring.DatabaseClientManager;
+import com.marklogic.spring.http.AuthenticationHeader;
+import com.marklogic.spring.http.SimpleRestConfig;
 
 /**
  * The beans in this configuration are only intended to be used in a development environment.
@@ -38,6 +41,12 @@ public class DevConfig {
         DatabaseClientConfig config = new DatabaseClientConfig(mlHost, mlRestPort, mlRestAdminUsername,
                 mlRestAdminPassword);
         config.setDatabase(mlAppName + "-content");
+        
+        //assumes a rest endpoint
+        AuthenticationHeader auth = AuthenticationHeader.getOption(new SimpleRestConfig(mlHost, mlRestPort));
+        if (!"digest".equalsIgnoreCase(auth.getType())){
+        	config.setAuthentication(Authentication.BASIC);
+        }
         return config;
     }
 
@@ -51,6 +60,11 @@ public class DevConfig {
         DatabaseClientConfig config = new DatabaseClientConfig(mlHost, mlRestPort, mlRestAdminUsername,
                 mlRestAdminPassword);
         config.setDatabase(mlAppName + "-modules");
+        //assumes a rest endpoint
+        AuthenticationHeader auth = AuthenticationHeader.getOption(new SimpleRestConfig(mlHost, mlRestPort));
+        if (!"digest".equalsIgnoreCase(auth.getType())){
+        	config.setAuthentication(Authentication.BASIC);
+        }
         return new DatabaseClientManager(config);
     }
 
